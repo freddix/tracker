@@ -2,12 +2,12 @@
 
 Summary:	Tracker - an indexing subsystem
 Name:		tracker
-Version:	0.14.4
+Version:	0.14.5
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/tracker/0.14/%{name}-%{version}.tar.xz
-# Source0-md5:	9eb11a79ec2320e90af72b693c39dbc7
+# Source0-md5:	44eacb1b05eb1321962aefe27f60e53e
 Patch0:		%{name}-link.patch
 Patch1:		%{name}-force-miners.patch
 URL:		http://projects.gnome.org/tracker/
@@ -191,6 +191,7 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/tracker-%{apiver}/extract-modules
 %dir %{_libdir}/tracker-%{apiver}/writeback-modules
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-abw.so
+%attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-dvi.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-epub.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-flac.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-gif.so
