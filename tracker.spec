@@ -1,13 +1,13 @@
-%define		apiver	0.14
+%define		apiver	0.16
 
 Summary:	Tracker - an indexing subsystem
 Name:		tracker
-Version:	0.14.5
+Version:	0.16.0
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/tracker/0.14/%{name}-%{version}.tar.xz
-# Source0-md5:	44eacb1b05eb1321962aefe27f60e53e
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/tracker/0.16/%{name}-%{version}.tar.xz
+# Source0-md5:	3f68c0141ed0442ba2977583981972c0
 Patch0:		%{name}-link.patch
 Patch1:		%{name}-force-miners.patch
 URL:		http://projects.gnome.org/tracker/
@@ -29,6 +29,7 @@ BuildRequires:	libgsf-devel
 BuildRequires:	libiptcdata-devel
 BuildRequires:	libjpeg-devel
 BuildRequires:	libnotify-devel
+BuildRequires:	libosinfo-devel
 BuildRequires:	libpng-devel
 BuildRequires:	libtiff-devel
 BuildRequires:	libtool
@@ -172,7 +173,6 @@ rm -rf $RPM_BUILD_ROOT
 %files -f tracker.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/tracker-control
-%attr(755,root,root) %{_bindir}/tracker-explorer
 %attr(755,root,root) %{_bindir}/tracker-import
 %attr(755,root,root) %{_bindir}/tracker-info
 %attr(755,root,root) %{_bindir}/tracker-needle
@@ -183,7 +183,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/tracker-tag
 
 %attr(755,root,root) %{_libexecdir}/tracker-extract
-%attr(755,root,root) %{_libexecdir}/tracker-miner-flickr
 %attr(755,root,root) %{_libexecdir}/tracker-miner-fs
 %attr(755,root,root) %{_libexecdir}/tracker-store
 %attr(755,root,root) %{_libexecdir}/tracker-writeback
@@ -198,6 +197,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-gstreamer.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-html.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-icon.so
+%attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-iso.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-jpeg.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-mp3.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-msoffice-xml.so
@@ -211,17 +211,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-tiff.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-vorbis.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-xmp.so
+
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/writeback-modules/libwriteback-taglib.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/writeback-modules/libwriteback-xmp.so
 
 %{_sysconfdir}/xdg/autostart/tracker-miner-fs.desktop
 %{_sysconfdir}/xdg/autostart/tracker-store.desktop
-%{_sysconfdir}/xdg/autostart/tracker-miner-flickr.desktop
 
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Extract.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Miner.Applications.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Miner.Files.service
-%{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Miner.Flickr.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Writeback.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.service
 
@@ -274,6 +273,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libtracker-extract-%{apiver}.so
 %attr(755,root,root) %{_libdir}/libtracker-miner-%{apiver}.so
+%attr(755,root,root) %{_libdir}/libtracker-sparql-%{apiver}.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/libtracker-common.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/libtracker-data.so
 
@@ -282,13 +282,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/gir-1.0/TrackerMiner-%{apiver}.gir
 
 %{_includedir}/tracker-%{apiver}
-
-%{_libdir}/libtracker-extract-%{apiver}.la
-%{_libdir}/libtracker-miner-%{apiver}.la
-%{_libdir}/libtracker-sparql-%{apiver}.la
-%{_libdir}/libtracker-sparql-%{apiver}.so
-%{_libdir}/tracker-%{apiver}/libtracker-common.la
-%{_libdir}/tracker-%{apiver}/libtracker-data.la
 
 %{_pkgconfigdir}/tracker-extract-%{apiver}.pc
 %{_pkgconfigdir}/tracker-miner-%{apiver}.pc
