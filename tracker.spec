@@ -3,7 +3,7 @@
 Summary:	Tracker - an indexing subsystem
 Name:		tracker
 Version:	0.16.1
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/tracker/0.16/%{name}-%{version}.tar.xz
@@ -140,19 +140,18 @@ rm -rf $RPM_BUILD_ROOT
 %{__make} install \
 	DESTDIR=$RPM_BUILD_ROOT
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/evolution/*/plugins/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
-rm -f $RPM_BUILD_ROOT%{_libdir}/tracker-%{apiver}/*/*.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/tracker-%{apiver}/*/*.la
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/thunderbird/extensions/trackerbird@bustany.org
-mv -f $RPM_BUILD_ROOT%{_datadir}/xul-ext/trackerbird \
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/thunderbird/extensions/trackerbird@bustany.org
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/xul-ext/trackerbird \
 	$RPM_BUILD_ROOT%{_libdir}/thunderbird/extensions/trackerbird@bustany.org
 
-rm -f $RPM_BUILD_ROOT%{_libdir}/firefox/extensions/trackerfox@bustany.org
-mv -f $RPM_BUILD_ROOT%{_datadir}/xul-ext/trackerfox \
-	$RPM_BUILD_ROOT%{_libdir}/firefox/extensions/trackerfox@bustany.org
+install -d $RPM_BUILD_ROOT%{_libdir}/firefox/browser/extensions
+%{__mv} $RPM_BUILD_ROOT%{_datadir}/xul-ext/trackerfox \
+	$RPM_BUILD_ROOT%{_libdir}/firefox/browser/extensions/trackerfox@bustany.org
 
-sed -i -e 's|XFCE;|XFCE;OPENBOX;|g' $RPM_BUILD_ROOT%{_sysconfdir}/xdg/autostart/*.desktop
+%{__sed} -i 's|XFCE;|XFCE;OPENBOX;|g' $RPM_BUILD_ROOT%{_sysconfdir}/xdg/autostart/*.desktop
 
 %find_lang %{name}
 
@@ -305,7 +304,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files trackerfox
 %defattr(644,root,root,755)
-%{_libdir}/firefox/extensions/trackerfox@bustany.org
+%{_libdir}/firefox/browser/extensions/trackerfox@bustany.org
 
 %files -n nautilus-extension-tracker
 %defattr(644,root,root,755)
