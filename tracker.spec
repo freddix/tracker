@@ -3,7 +3,7 @@
 Summary:	Tracker - an indexing subsystem
 Name:		tracker
 Version:	0.16.2
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/tracker/0.16/%{name}-%{version}.tar.xz
