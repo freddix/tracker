@@ -3,7 +3,7 @@
 Summary:	Tracker - an indexing subsystem
 Name:		tracker
 Version:	0.16.4
-Release:	1
+Release:	2
 License:	GPL v2+
 Group:		X11/Applications
 Source0:	http://ftp.gnome.org/pub/GNOME/sources/tracker/0.16/%{name}-%{version}.tar.xz
@@ -141,7 +141,7 @@ rm -rf $RPM_BUILD_ROOT
 	DESTDIR=$RPM_BUILD_ROOT
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/nautilus/extensions-3.0/*.la
-%{__rm} $RPM_BUILD_ROOT%{_libdir}/tracker-%{apiver}/*/*.la
+%{__rm} $RPM_BUILD_ROOT%{_libdir}/{,tracker-%{apiver}/{,*/}}*.la
 
 %{__rm} $RPM_BUILD_ROOT%{_libdir}/thunderbird/extensions/trackerbird@bustany.org
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/xul-ext/trackerbird \
