@@ -1,13 +1,13 @@
-%define		apiver	0.16
+%define		apiver	1.0
 
 Summary:	Tracker - an indexing subsystem
 Name:		tracker
-Version:	0.16.4
+Version:	1.0.0
 Release:	2
 License:	GPL v2+
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/tracker/0.16/%{name}-%{version}.tar.xz
-# Source0-md5:	a2debc6b80ea4134306ce395922413a7
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/tracker/1.0/%{name}-%{version}.tar.xz
+# Source0-md5:	a234c5a6d3a22120a1eeaef0c71a57fb
 Patch0:		%{name}-link.patch
 Patch1:		%{name}-force-miners.patch
 URL:		http://projects.gnome.org/tracker/
@@ -19,7 +19,7 @@ BuildRequires:	enca-devel
 BuildRequires:	exempi-devel
 BuildRequires:	flac-devel
 BuildRequires:	gettext-devel
-BuildRequires:	gstreamer010-plugins-base-devel
+BuildRequires:	gstreamer-plugins-base-devel
 BuildRequires:	gtk-doc
 BuildRequires:	id3lib-devel
 BuildRequires:	intltool
@@ -28,6 +28,7 @@ BuildRequires:	libgee-devel
 BuildRequires:	libgsf-devel
 BuildRequires:	libiptcdata-devel
 BuildRequires:	libjpeg-devel
+BuildRequires:	libmediaart-devel
 BuildRequires:	libnotify-devel
 BuildRequires:	libosinfo-devel
 BuildRequires:	libpng-devel
@@ -41,7 +42,7 @@ BuildRequires:	pkg-config
 BuildRequires:	poppler-glib-devel
 BuildRequires:	sqlite3-devel
 BuildRequires:	totem-pl-parser-devel
-BuildRequires:	upower-devel
+BuildRequires:	upower-devel >= 0.99.0
 BuildRequires:	vala
 BuildRequires:	zlib-devel
 Requires(post,postun):	/usr/bin/gtk-update-icon-cache
@@ -217,8 +218,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_sysconfdir}/xdg/autostart/tracker-miner-fs.desktop
 %{_sysconfdir}/xdg/autostart/tracker-store.desktop
 
-%{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Extract.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Miner.Applications.service
+%{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Miner.Extract.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Miner.Files.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Writeback.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.service
@@ -255,37 +256,41 @@ rm -rf $RPM_BUILD_ROOT
 
 %files libs
 %defattr(644,root,root,755)
-%attr(755,root,root) %ghost %{_libdir}/libtracker-extract-%{apiver}.so.?
+%attr(755,root,root) %ghost %{_libdir}/libtracker-control-%{apiver}.so.?
 %attr(755,root,root) %ghost %{_libdir}/libtracker-miner-%{apiver}.so.?
 %attr(755,root,root) %ghost %{_libdir}/libtracker-sparql-%{apiver}.so.?
-%attr(755,root,root) %{_libdir}/libtracker-extract-%{apiver}.so.*.*.*
+%attr(755,root,root) %{_libdir}/libtracker-control-%{apiver}.so.*.*.*
 %attr(755,root,root) %{_libdir}/libtracker-miner-%{apiver}.so.*.*.*
 %attr(755,root,root) %{_libdir}/libtracker-sparql-%{apiver}.so.*.*.*
 
 %dir %{_libexecdir}
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/libtracker-common.so.*
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/libtracker-data.so.*
+%attr(755,root,root) %{_libdir}/tracker-%{apiver}/libtracker-extract.so.*
 
 %{_libdir}/girepository-1.0/*.typelib
 
 %files devel
 %defattr(644,root,root,755)
-%attr(755,root,root) %{_libdir}/libtracker-extract-%{apiver}.so
+%attr(755,root,root) %{_libdir}/libtracker-control-%{apiver}.so
 %attr(755,root,root) %{_libdir}/libtracker-miner-%{apiver}.so
 %attr(755,root,root) %{_libdir}/libtracker-sparql-%{apiver}.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/libtracker-common.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/libtracker-data.so
+%attr(755,root,root) %{_libdir}/tracker-%{apiver}/libtracker-extract.so
 
 %{_datadir}/gir-1.0/Tracker-%{apiver}.gir
-%{_datadir}/gir-1.0/TrackerExtract-%{apiver}.gir
+%{_datadir}/gir-1.0/TrackerControl-%{apiver}.gir
 %{_datadir}/gir-1.0/TrackerMiner-%{apiver}.gir
 
 %{_includedir}/tracker-%{apiver}
 
-%{_pkgconfigdir}/tracker-extract-%{apiver}.pc
+%{_pkgconfigdir}/tracker-control-%{apiver}.pc
 %{_pkgconfigdir}/tracker-miner-%{apiver}.pc
 %{_pkgconfigdir}/tracker-sparql-%{apiver}.pc
 
+%{_datadir}/vala/vapi/tracker-control-%{apiver}.deps
+%{_datadir}/vala/vapi/tracker-control-%{apiver}.vapi
 %{_datadir}/vala/vapi/tracker-miner-%{apiver}.deps
 %{_datadir}/vala/vapi/tracker-miner-%{apiver}.vapi
 %{_datadir}/vala/vapi/tracker-sparql-%{apiver}.deps
@@ -293,7 +298,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files apidocs
 %defattr(644,root,root,755)
-%{_gtkdocdir}/libtracker-extract
+%{_gtkdocdir}/libtracker-control
 %{_gtkdocdir}/libtracker-miner
 %{_gtkdocdir}/libtracker-sparql
 
