@@ -2,12 +2,12 @@
 
 Summary:	Tracker - an indexing subsystem
 Name:		tracker
-Version:	1.0.1
+Version:	1.2.2
 Release:	1
 License:	GPL v2+
 Group:		X11/Applications
-Source0:	http://ftp.gnome.org/pub/GNOME/sources/tracker/1.0/%{name}-%{version}.tar.xz
-# Source0-md5:	e2a6999c2017c66554e914fc4cb9c20f
+Source0:	http://ftp.gnome.org/pub/GNOME/sources/tracker/1.2/%{name}-%{version}.tar.xz
+# Source0-md5:	b8c1a73dc4af0246224c84f12656dd0b
 Patch0:		%{name}-link.patch
 Patch1:		%{name}-force-miners.patch
 URL:		http://projects.gnome.org/tracker/
@@ -21,7 +21,6 @@ BuildRequires:	flac-devel
 BuildRequires:	gettext-devel
 BuildRequires:	gstreamer-plugins-base-devel
 BuildRequires:	gtk-doc
-BuildRequires:	id3lib-devel
 BuildRequires:	intltool
 BuildRequires:	libexif-devel
 BuildRequires:	libgee-devel
@@ -124,7 +123,7 @@ Adds Tracker integration to Nautilus.
 	--disable-hal			\
 	--disable-miner-evolution	\
 	--disable-silent-rules		\
-	--disable-tracker-search-bar	\
+	--disable-static		\
 	--disable-unit-tests		\
 	--enable-libflac		\
 	--enable-libvorbis		\
@@ -151,8 +150,6 @@ rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT%{_libdir}/firefox/browser/extensions
 %{__mv} $RPM_BUILD_ROOT%{_datadir}/xul-ext/trackerfox \
 	$RPM_BUILD_ROOT%{_libdir}/firefox/browser/extensions/trackerfox@bustany.org
-
-%{__sed} -i 's|XFCE;|XFCE;OPENBOX;|g' $RPM_BUILD_ROOT%{_sysconfdir}/xdg/autostart/*.desktop
 
 %find_lang %{name}
 
@@ -183,13 +180,17 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_bindir}/tracker-tag
 
 %attr(755,root,root) %{_libexecdir}/tracker-extract
+%attr(755,root,root) %{_libexecdir}/tracker-miner-apps
 %attr(755,root,root) %{_libexecdir}/tracker-miner-fs
+%attr(755,root,root) %{_libexecdir}/tracker-miner-user-guides
 %attr(755,root,root) %{_libexecdir}/tracker-store
 %attr(755,root,root) %{_libexecdir}/tracker-writeback
 
 %dir %{_libdir}/tracker-%{apiver}/extract-modules
 %dir %{_libdir}/tracker-%{apiver}/writeback-modules
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-abw.so
+%attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-bmp.so
+%attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-dummy.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-dvi.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-epub.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/extract-modules/libextract-flac.so
@@ -215,12 +216,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/writeback-modules/libwriteback-taglib.so
 %attr(755,root,root) %{_libdir}/tracker-%{apiver}/writeback-modules/libwriteback-xmp.so
 
+%{_sysconfdir}/xdg/autostart/tracker-extract.desktop
+%{_sysconfdir}/xdg/autostart/tracker-miner-apps.desktop
 %{_sysconfdir}/xdg/autostart/tracker-miner-fs.desktop
+%{_sysconfdir}/xdg/autostart/tracker-miner-user-guides.desktop
 %{_sysconfdir}/xdg/autostart/tracker-store.desktop
 
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Miner.Applications.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Miner.Extract.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Miner.Files.service
+%{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Miner.Userguides.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.Writeback.service
 %{_datadir}/dbus-1/services/org.freedesktop.Tracker1.service
 
